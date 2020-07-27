@@ -15,6 +15,9 @@ clean:
 check:
 	./gradlew build --refresh-dependencies -Dcheck=true ; ./gradlew cDU -Dcheck=true
 
+run:
+	./gradlew run
+
 stop:
 	./gradlew --stop
 
