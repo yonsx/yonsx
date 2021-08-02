@@ -27,7 +27,7 @@ public class WebSocketServer {
         serverBootstrap.group(bossGroup, workerGroup)
                 .channel(NioServerSocketChannel.class)
                 .handler(new LoggingHandler(LogLevel.DEBUG))
-                .childHandler(new WebSocketServerInitializer());
+                .childHandler(WebSocketServerInitializer.builder().build());
 
         try {
 
@@ -57,8 +57,6 @@ public class WebSocketServer {
         private Integer port;
 
         public WebSocketServerBuilder port(Integer port) {
-
-            // TODO check
             this.port = port;
             return this;
         }

@@ -19,10 +19,8 @@ public class WebSocketFrameHandler extends SimpleChannelInboundHandler<WebSocket
     protected void channelRead0(ChannelHandlerContext ctx, WebSocketFrame frame) throws Exception {
 
         if (frame instanceof TextWebSocketFrame) {
-            // Send the uppercase string back.
             String request = ((TextWebSocketFrame) frame).text();
             ctx.channel().writeAndFlush(new TextWebSocketFrame(MessageFormat.format("Hello {0} !", request)));
-
         } else if (frame instanceof BinaryWebSocketFrame) {
 
             // TODO

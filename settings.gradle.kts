@@ -1,4 +1,5 @@
 rootProject.name = "yonsx"
 include(
-        "yonsx-server"
+        "yonsx-server",
+        "yonsx-gateway"
 )

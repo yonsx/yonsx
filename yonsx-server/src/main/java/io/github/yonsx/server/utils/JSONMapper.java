@@ -15,5 +15,4 @@ public class JSONMapper extends JsonMapper {
         return MAPPER;
     }
 
-
 }

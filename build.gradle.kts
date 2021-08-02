@@ -1,7 +1,6 @@
 plugins {
-    val checkVersion = "1.0.208"
-    id("name.remal.check-gradle-updates") version (checkVersion) apply (false)
-    id("name.remal.check-dependency-updates") version (checkVersion) apply (false)
+    val checkVersion = "1.4.1"
+    id("name.remal.check-updates") version checkVersion apply false
     idea
     `java-library`
 }
@@ -19,12 +18,10 @@ allprojects {
     version = "1.0.0-SNAPSHOT"
 
     if (checkDependency) {
-        apply(plugin = "name.remal.check-gradle-updates")
-        apply(plugin = "name.remal.check-dependency-updates")
+        apply(plugin = "name.remal.check-updates")
     }
 
 }
-
 
 val commandLineProjectProp: String by project
 val gradlePropertiesProp: String by project
@@ -43,9 +40,9 @@ subprojects {
     apply(plugin = "java")
     apply(plugin = "maven-publish")
 
-    configure<JavaPluginConvention> {
-        sourceCompatibility = JavaVersion.VERSION_14
-        targetCompatibility = JavaVersion.VERSION_14
+    configure<JavaPluginExtension> {
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
 
     repositories {
@@ -60,16 +57,18 @@ subprojects {
             url = uri("https://maven.springframework.org/release")
         }
         mavenCentral()
-        jcenter()
+        gradlePluginPortal()
+        google()
     }
 
 
-    tasks.withType<JavaCompile>().configureEach {
-        options.compilerArgs = listOf(
+    tasks.withType<JavaCompile>()
+        .configureEach {
+            options.compilerArgs = listOf(
                 "-Xdoclint:none",
                 "-Xlint:none",
                 "-nowarn"
-        )
+            )
 
 //        options.compilerArgs.clear() // remove `--release 8` set in root gradle build
 //        options.compilerArgs.addAll(listOf(
@@ -80,10 +79,11 @@ subprojects {
 //                "--add-exports", "jdk.compiler/com.sun.tools.javac.main=ALL-UNNAMED",
 //                "--add-exports", "jdk.compiler/com.sun.tools.javac.comp=ALL-UNNAMED"
 //        ))
-    }
+        }
 
     dependencies {
-        implementation(enforcedPlatform("com.google.guava:guava:29.0-jre"))
+        implementation(enforcedPlatform("com.google.guava:guava:${rootProject.extra["guaveVersion"]}"))
+        implementation(enforcedPlatform("io.netty:netty-bom:${rootProject.extra["nettyVersion"]}"))
 
         implementation(enforcedPlatform("org.junit:junit-bom:${rootProject.extra["junitVersion"]}"))
         implementation(enforcedPlatform("org.apache.logging.log4j:log4j-bom:${rootProject.extra["log4jVersion"]}"))

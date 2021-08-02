@@ -1,7 +1,6 @@
 plugins {
-    java
+    `java-library`
     idea
-    application
 }
 
 dependencies {
@@ -50,15 +49,6 @@ dependencies {
 
     testImplementation("org.junit.jupiter:junit-jupiter")
     testImplementation("com.google.truth:truth")
-}
-
-application {
-    applicationDefaultJvmArgs = listOf(
-            "--add-opens", "java.base/jdk.internal.misc=ALL-UNNAMED",
-            "-Dio.netty.tryReflectionSetAccessible=true",
-            "--illegal-access=warn"
-    )
-    mainClass.set("io.github.yonsx.App")
 }
 
 val test by tasks.getting(Test::class) {

@@ -7,6 +7,9 @@ import io.netty.handler.codec.http.HttpObjectAggregator;
 import io.netty.handler.codec.http.HttpServerCodec;
 import io.netty.handler.codec.http.websocketx.WebSocketServerProtocolHandler;
 import io.netty.handler.codec.http.websocketx.extensions.compression.WebSocketServerCompressionHandler;
+import io.netty.handler.ssl.SslContext;
+
+import java.util.Objects;
 
 /**
  * WebSocketServerInitializer
@@ -15,19 +18,26 @@ import io.netty.handler.codec.http.websocketx.extensions.compression.WebSocketSe
  */
 public class WebSocketServerInitializer extends ChannelInitializer<Channel> {
 
-    private final String chatPath;
+    private final String     chatPath;
+    private final SslContext sslCtx;
 
-    public WebSocketServerInitializer() {
-        this.chatPath = YonsxServerConst.WS_PATH;
+    public static WebSocketServerInitializerBuilder builder() {
+        return new WebSocketServerInitializerBuilder();
     }
 
-    public WebSocketServerInitializer(String chatPath) {
+    public WebSocketServerInitializer(String chatPath, SslContext sslCtx) {
         this.chatPath = chatPath;
+        this.sslCtx   = sslCtx;
     }
 
     @Override
     protected void initChannel(Channel ch) throws Exception {
         var channelPipeline = ch.pipeline();
+
+        if (sslCtx != null) {
+            channelPipeline.addLast(sslCtx.newHandler(ch.alloc()));
+        }
+
         channelPipeline
                 // .addFirst(new SslHandler(....)))
                 .addLast(
@@ -39,5 +49,34 @@ public class WebSocketServerInitializer extends ChannelInitializer<Channel> {
                         new WebSocketIndexPageHandler(chatPath),
                         new WebSocketFrameHandler()
                 );
+    }
+
+    public static class WebSocketServerInitializerBuilder {
+
+        private String     chatPath;
+        private SslContext sslCtx;
+
+        private WebSocketServerInitializerBuilder() {
+
+        }
+
+        public WebSocketServerInitializerBuilder chatPath(String chatPath) {
+            if (Objects.isNull(chatPath) || chatPath.isBlank()) {
+                this.chatPath = YonsxServerConst.WS_PATH;
+            } else {
+                this.chatPath = null;
+            }
+            return this;
+        }
+
+        public WebSocketServerInitializerBuilder sslCtx(SslContext sslCtx) {
+            this.sslCtx = sslCtx;
+            return this;
+        }
+
+        public WebSocketServerInitializer build() {
+            return new WebSocketServerInitializer(chatPath, sslCtx);
+        }
+
     }
 }

@@ -13,7 +13,7 @@ clean:
 	./gradlew clean
 
 check:
-	./gradlew build --refresh-dependencies -Dcheck=true ; ./gradlew cDU -Dcheck=true
+	./gradlew build --refresh-dependencies checkUpdates -Dcheck=true
 
 run:
 	./gradlew run

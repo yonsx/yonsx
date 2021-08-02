@@ -1,6 +1,7 @@
 package io.github.yonsx.server.utils;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 
@@ -11,9 +12,10 @@ import java.time.format.DateTimeFormatterBuilder;
  */
 public class Times {
 
-    private static final DateTimeFormatter DTF = new DateTimeFormatterBuilder().appendPattern("yyyy-MM-dd HH:mm:ss SSS").toFormatter();
+    private static final DateTimeFormatter DTF     = new DateTimeFormatterBuilder().appendPattern("yyyy-MM-dd HH:mm:ss SSS").toFormatter();
+    private static final ZoneId            ZONE_ID = ZoneId.of("CTT", ZoneId.SHORT_IDS); // 统一时区 Asia/Shanghai
 
     public static String nowString() {
-        return LocalDateTime.now().format(DTF);
+        return LocalDateTime.now(ZONE_ID).format(DTF);
     }
 }
