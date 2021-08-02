@@ -1,14 +1,9 @@
 plugins {
     val checkVersion = "1.4.1"
-    id("name.remal.check-updates") version checkVersion apply false
     idea
     `java-library`
 }
 
-var checkSystemProp = System.getProperty("check")
-val checkDependency = (null != checkSystemProp && "true" == checkSystemProp)
-
-println("Check Dependency Update $checkDependency")
 
 apply("versions.gradle.kts")
 
@@ -16,10 +11,6 @@ allprojects {
 
     group = "io.github.yonsx"
     version = "1.0.0-SNAPSHOT"
-
-    if (checkDependency) {
-        apply(plugin = "name.remal.check-updates")
-    }
 
 }
 
