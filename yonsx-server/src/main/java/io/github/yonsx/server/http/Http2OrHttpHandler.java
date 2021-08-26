@@ -26,7 +26,7 @@ public class Http2OrHttpHandler extends ApplicationProtocolNegotiationHandler {
         if (ApplicationProtocolNames.HTTP_2.equals(protocol)) {
             channelPipeline.addLast(
                     Http2FrameCodecBuilder.forServer().build()
-//                    new HelloWorldHttp2Handler()
+//                    new HelloWorldHttpHandler()
             );
             return;
         }
@@ -34,7 +34,7 @@ public class Http2OrHttpHandler extends ApplicationProtocolNegotiationHandler {
         if (ApplicationProtocolNames.HTTP_1_1.equals(protocol)) {
             ctx.pipeline().addLast(new HttpServerCodec(),
                     new HttpObjectAggregator(MAX_CONTENT_LENGTH)
-//                    new HelloWorldHttp1Handler("ALPN Negotiation")
+//                    new HelloWorldHttpHandler("ALPN Negotiation")
             );
             return;
         }

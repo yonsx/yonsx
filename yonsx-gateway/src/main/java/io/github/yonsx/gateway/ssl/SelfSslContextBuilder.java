@@ -32,7 +32,7 @@ public class SelfSslContextBuilder {
                     .ciphers(Http2SecurityUtil.CIPHERS, SupportedCipherSuiteFilter.INSTANCE)
                     .applicationProtocolConfig(
                             new ApplicationProtocolConfig(
-                                    ApplicationProtocolConfig.Protocol.ALPN,
+                                    ApplicationProtocolConfig.Protocol.NPN_AND_ALPN,
                                     ApplicationProtocolConfig.SelectorFailureBehavior.NO_ADVERTISE,
                                     ApplicationProtocolConfig.SelectedListenerFailureBehavior.ACCEPT,
                                     ApplicationProtocolNames.HTTP_2,

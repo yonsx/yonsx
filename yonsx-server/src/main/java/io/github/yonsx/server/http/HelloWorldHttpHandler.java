@@ -12,13 +12,13 @@ import io.netty.handler.codec.http2.Http2Headers;
 import io.netty.handler.codec.http2.Http2Settings;
 
 /**
- * HelloWorldHttp2Handler
+ * HelloWorldHttpHandler
  *
  * @author yakir on 2020/08/04 13:53.
  */
-public class HelloWorldHttp2Handler extends Http2ConnectionHandler implements Http2FrameListener {
+public class HelloWorldHttpHandler extends Http2ConnectionHandler implements Http2FrameListener {
 
-    public HelloWorldHttp2Handler(Http2ConnectionDecoder decoder, Http2ConnectionEncoder encoder, Http2Settings initialSettings) {
+    public HelloWorldHttpHandler(Http2ConnectionDecoder decoder, Http2ConnectionEncoder encoder, Http2Settings initialSettings) {
         super(decoder, encoder, initialSettings);
     }
 
